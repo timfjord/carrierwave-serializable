@@ -32,7 +32,7 @@ module CarrierWave
               @#{column}_changed
             end
           RUBY
-        end
+        
         
         class_eval <<-RUBY, __FILE__, __LINE__+1
           def write_uploader(column, identifier)
@@ -53,6 +53,8 @@ module CarrierWave
             end
           end
         RUBY
+
+        end
       end
     end # Serializable
   end # ActiveRecord
