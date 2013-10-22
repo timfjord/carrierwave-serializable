@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Carrierwave plugin that allow mount uploader to serialized field}
   gem.summary       = %q{Carrierwave plugin that allow mount uploader to serialized field}
   gem.homepage      = "https://github.com/timsly/carrierwave-serializable"
+  gem.licenses      = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
