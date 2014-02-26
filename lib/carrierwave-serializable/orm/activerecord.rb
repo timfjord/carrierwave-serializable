@@ -6,7 +6,7 @@ module CarrierWave
   module ActiveRecord
     module Serializable
       def serialized_uploaders
-        @serialized_uploaders ||= {}
+        @serialized_uploaders ||= superclass.respond_to?(:serialized_uploaders) ? superclass.serialized_uploaders.dup : {}
       end
 
       def serialized_uploader?(column)
