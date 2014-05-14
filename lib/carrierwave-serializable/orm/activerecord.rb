@@ -37,40 +37,39 @@ module CarrierWave
         
         serialize_to = options.delete :serialize_to
         if serialize_to
-          serialized_uploaders[column] = serialize_to 
+          serialization_column = options[:mount_on] || column
+          serialized_uploaders[serialization_column] = serialize_to
           class_eval <<-RUBY, __FILE__, __LINE__+1
-            def #{column}_will_change!
+            def #{serialization_column}_will_change!
               #{serialize_to}_will_change!
-              @#{column}_changed = true
+              @#{serialization_column}_changed = true
             end
 
-            def #{column}_changed?
-              @#{column}_changed
+            def #{serialization_column}_changed?
+              @#{serialization_column}_changed
             end
           RUBY
-        
-        
-          class_eval <<-RUBY, __FILE__, __LINE__+1
-            def write_uploader(column, identifier)
-              if self.class.serialized_uploader?(column)
-                serialized_field = self.send self.class.serialized_uploaders[column]
-                serialized_field[column.to_s] = identifier
-              else
-                super
-              end
-            end
-  
-            def read_uploader(column)
-              if self.class.serialized_uploader?(column)
-                serialized_field = self.send self.class.serialized_uploaders[column]
-                serialized_field[column.to_s]
-              else
-                super
-              end
-            end
-          RUBY
-  
         end
+        class_eval <<-RUBY, __FILE__, __LINE__+1
+          def write_uploader(column, identifier)
+            if self.class.serialized_uploader?(column)
+              serialized_field = self.send self.class.serialized_uploaders[column]
+              serialized_field[column.to_s] = identifier
+            else
+              write_attribute(column, identifier)
+            end
+          end
+
+          def read_uploader(column)
+            if self.class.serialized_uploader?(column)
+              serialized_field = self.send self.class.serialized_uploaders[column]
+              serialized_field[column.to_s]
+            else
+              read_attribute(column)
+            end
+          end
+        RUBY
+
       end
     end # Serializable
   end # ActiveRecord
