@@ -63,7 +63,7 @@ module CarrierWave
             def read_uploader(column)
               if self.class.serialized_uploader?(column)
                 serialized_field = self.send self.class.serialized_uploaders[column]
-                serialized_field[column.to_s]
+                serialized_field ? serialized_field[column.to_s] : nil
               else
                 super
               end
