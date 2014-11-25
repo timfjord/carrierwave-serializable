@@ -6,9 +6,13 @@ module CarrierWave
   module ActiveRecord
     module Serializable
       def serialized_uploaders
-        @serialized_uploaders ||= {}
+        @serialized_uploaders ||= if superclass.respond_to?(:serialized_uploaders)
+                                    superclass.serialized_uploaders
+                                  else
+                                    {}
+                                  end
       end
-    
+
       def serialized_uploader?(column)
         attribute_name = serialized_uploaders[column].to_s
         serialized_uploaders.key?(column) && (serialized_attribute?(attribute_name) ||
@@ -34,7 +38,7 @@ module CarrierWave
       #
       def mount_uploader(column, uploader=nil, options={}, &block)
         super
-        
+
         serialize_to = options.delete :serialize_to
         if serialize_to
           serialization_column = options[:mount_on] || column
