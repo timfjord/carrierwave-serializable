@@ -8,7 +8,7 @@ module CarrierWave
       def serialized_uploaders
         @serialized_uploaders ||= {}
       end
-    
+
       def serialized_uploader?(column)
         attribute_name = serialized_uploaders[column].to_s
         serialized_uploaders.key?(column) && (serialized_attribute?(attribute_name) ||
@@ -34,7 +34,7 @@ module CarrierWave
       #
       def mount_uploader(column, uploader=nil, options={}, &block)
         super
-        
+
         serialize_to = options.delete :serialize_to
         if serialize_to
           serialization_column = options[:mount_on] || column
@@ -63,7 +63,7 @@ module CarrierWave
           def read_uploader(column)
             if self.class.serialized_uploader?(column)
               serialized_field = self.send self.class.serialized_uploaders[column]
-              serialized_field[column.to_s]
+              serialized_field[column.to_s] if serialized_field.respond_to?(:[])
             else
               read_attribute(column)
             end
