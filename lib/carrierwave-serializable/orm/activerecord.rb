@@ -53,8 +53,13 @@ module CarrierWave
         class_eval <<-RUBY, __FILE__, __LINE__+1
           def write_uploader(column, identifier)
             if self.class.serialized_uploader?(column)
-              serialized_field = self.send self.class.serialized_uploaders[column]
-              serialized_field[column.to_s] = identifier
+              serialized_field_name = self.class.serialized_uploaders[column].to_s
+
+              if serialized_field = self.send(serialized_field_name)
+                serialized_field[column.to_s] = identifier
+              else
+                self.send "#{serialized_field_name}=", column.to_s => identifier
+              end
             else
               write_attribute(column, identifier)
             end
