@@ -8,25 +8,9 @@ module CarrierWave
       def serialized_uploaders
         @serialized_uploaders ||= {}
       end
-    
+
       def serialized_uploader?(column)
-        attribute_name = serialized_uploaders[column].to_s
-        serialized_uploaders.key?(column) && (serialized_attribute?(attribute_name) ||
-                                              hstore_attribute?(attribute_name) ||
-                                              json_attribute?(attribute_name))
-
-      end
-
-      def serialized_attribute?(attribute)
-        serialized_attributes.key?(attribute)
-      end
-
-      def hstore_attribute?(attribute)
-        columns_hash[attribute.to_s].type == :hstore
-      end
-
-      def json_attribute?(attribute)
-        columns_hash[attribute.to_s].type == :json
+        serialized_uploaders.key?(column)
       end
 
       ##
@@ -34,7 +18,7 @@ module CarrierWave
       #
       def mount_uploader(column, uploader=nil, options={}, &block)
         super
-        
+
         serialize_to = options.delete :serialize_to
         if serialize_to
           serialization_column = options[:mount_on] || column
