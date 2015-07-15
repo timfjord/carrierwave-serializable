@@ -42,7 +42,7 @@ module CarrierWave
               if serialized_field = self.send(serialized_field_name)
                 serialized_field[column.to_s] = identifier
               else
-                self.send "#{serialized_field_name}=", column.to_s => identifier
+                self.send "\#{serialized_field_name}=", column.to_s => identifier
               end
             else
               write_attribute(column, identifier)
