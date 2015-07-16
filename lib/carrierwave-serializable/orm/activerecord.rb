@@ -6,7 +6,7 @@ module CarrierWave
   module ActiveRecord
     module Serializable
       def serialized_uploaders
-        @serialized_uploaders ||= {}
+        @serialized_uploaders ||= read_from_superclass? ? superclass.serialized_uploaders : {}
       end
 
       def serialized_uploader?(column)
@@ -59,6 +59,12 @@ module CarrierWave
           end
         RUBY
 
+      end
+
+      private
+
+      def read_from_superclass?
+        superclass != ::ActiveRecord::Base && superclass.respond_to?(:serialized_uploaders)
       end
     end # Serializable
   end # ActiveRecord
