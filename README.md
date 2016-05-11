@@ -1,5 +1,7 @@
 # Carrierwave::Serializable
 
+[![Build Status](https://travis-ci.org/timsly/carrierwave-serializable.svg?branch=master)](https://travis-ci.org/timsly/carrierwave-serializable)
+
 Carrierwave plugin that allow mount uploader to serialized field
 
 ## Installation
