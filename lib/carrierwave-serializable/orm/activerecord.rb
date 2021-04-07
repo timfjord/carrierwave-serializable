@@ -5,24 +5,29 @@ require "carrierwave/orm/activerecord"
 module CarrierWave
   module ActiveRecord
     module Serializable
-      def serialized_uploaders
-        @serialized_uploaders ||= read_from_superclass? ? superclass.serialized_uploaders : {}
-      end
-
-      def serialized_uploader?(column)
-        serialized_uploaders.key?(column)
-      end
-
       ##
       # See +CarrierWave::Mount#mount_uploader+ for documentation
       #
       def mount_uploader(column, uploader=nil, options={}, &block)
         super
 
+        unless respond_to?(:serialized_uploaders)
+          class_eval do
+            def self.serialized_uploaders
+              @serialized_uploaders ||= read_from_superclass? ? superclass.serialized_uploaders : {}
+            end
+
+            def self.serialized_uploader?(column)
+              serialized_uploaders.key?(column)
+            end
+          end
+        end
+
         serialize_to = options.delete :serialize_to
         if serialize_to
           serialization_column = options[:mount_on] || column
           serialized_uploaders[serialization_column] = serialize_to
+
           class_eval <<-RUBY, __FILE__, __LINE__+1
             def #{serialization_column}_will_change!
               #{serialize_to}_will_change!
@@ -34,6 +39,7 @@ module CarrierWave
             end
           RUBY
         end
+
         class_eval <<-RUBY, __FILE__, __LINE__+1
           def write_uploader(column, identifier)
             if self.class.serialized_uploader?(column)
