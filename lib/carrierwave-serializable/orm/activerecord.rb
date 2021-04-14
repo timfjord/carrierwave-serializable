@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require "carrierwave/orm/activerecord"
+require 'carrierwave/orm/activerecord'
 
 module CarrierWave
   module ActiveRecord
@@ -16,7 +16,7 @@ module CarrierWave
       ##
       # See +CarrierWave::Mount#mount_uploader+ for documentation
       #
-      def mount_uploader(column, uploader=nil, options={}, &block)
+      def mount_uploader(column, uploader = nil, options = {}, &block)
         super
 
         serialize_to = options.delete :serialize_to
@@ -34,7 +34,8 @@ module CarrierWave
             end
           RUBY
         end
-        class_eval <<-RUBY, __FILE__, __LINE__+1
+
+        class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def write_uploader(column, identifier)
             if self.class.serialized_uploader?(column)
               serialized_field_name = self.class.serialized_uploaders[column].to_s
@@ -42,7 +43,7 @@ module CarrierWave
               if serialized_field = self.send(serialized_field_name)
                 serialized_field[column.to_s] = identifier
               else
-                self.send "\#{serialized_field_name}=", column.to_s => identifier
+                self.send("\#{serialized_field_name}=", column.to_s => identifier)
               end
             else
               write_attribute(column, identifier)
@@ -66,6 +67,6 @@ module CarrierWave
       def read_from_superclass?
         superclass != ::ActiveRecord::Base && superclass.respond_to?(:serialized_uploaders)
       end
-    end # Serializable
-  end # ActiveRecord
-end # CarrierWave
+    end
+  end
+end
