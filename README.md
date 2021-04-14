@@ -1,6 +1,4 @@
-# Carrierwave::Serializable
-
-[![Build Status](https://travis-ci.org/timsly/carrierwave-serializable.svg?branch=master)](https://travis-ci.org/timsly/carrierwave-serializable)
+# Carrierwave::Serializable ![Build Status](https://github.com/timfjord/carrierwave-serializable/actions/workflows/test.yml/badge.svg)
 
 Carrierwave plugin that allow mount uploader to serialized field
 
@@ -16,13 +14,15 @@ Or install it yourself as:
 
 ## Usage
 
-If you need mount uploader to serialized field, set `serialize_to` option
-to serialized field where you want to store your uplaoder.
+To mount an uploader to the serialized field, set the `serialize_to` option
+to the serialized field where you want to store the uploader.
 
-    class User < ActiveRecord::Base
-      serialize :documents, Hash
-      mount_uploader :document1, DocumentUploader, serialize_to: :documents
-    end
+```ruby
+class User < ActiveRecord::Base
+  serialize :documents, Hash
+  mount_uploader :document1, DocumentUploader, serialize_to: :documents
+end
+```
 
 ## Contributing
 

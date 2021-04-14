@@ -6,11 +6,11 @@ require 'carrierwave-serializable/version'
 Gem::Specification.new do |gem|
   gem.name          = 'carrierwave-serializable'
   gem.version       = CarrierWave::Serializable::VERSION
-  gem.authors       = ['Tima Maslyuchenko']
-  gem.email         = ['insside@gmail.com']
+  gem.authors       = ['Tim Masliuchenko']
+  gem.email         = ['timfjord@hey.com']
   gem.description   = %q{Carrierwave plugin that allow mount uploader to serialized field}
   gem.summary       = %q{Carrierwave plugin that allow mount uploader to serialized field}
-  gem.homepage      = 'https://github.com/timsly/carrierwave-serializable'
+  gem.homepage      = 'https://github.com/timfjord/carrierwave-serializable'
   gem.licenses      = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
