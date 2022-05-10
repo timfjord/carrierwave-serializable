@@ -1,3 +1,5 @@
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://stand-with-ukraine.pp.ua)
+
 # Carrierwave::Serializable ![Build Status](https://github.com/timfjord/carrierwave-serializable/actions/workflows/test.yml/badge.svg)
 
 Carrierwave plugin that allow mount uploader to serialized field
